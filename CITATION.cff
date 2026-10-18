@@ -10,12 +10,12 @@ type: software
 authors:
   - family-names: "Roa Domínguez"
     given-names: "Juan Antonio"
-    # orcid: "https://orcid.org/0000-0000-0000-0000"  # TODO: add ORCID
-    # affiliation: ""                                 # TODO: add affiliation
+    # orcid: "https://orcid.org/0000-0002-5453-6180"  
+    # affiliation: "University of Cádiz"                                 
 version: "1.0.0"
 date-released: "2026-10-15"
 license: MIT
-repository-code: "https://github.com/USERNAME/OpenMunicipality"  # TODO
+repository-code: "https://github.com/Juankiord/OpenMunicipality" 
 keywords:
   - budget transparency
   - municipal budgets
