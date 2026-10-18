@@ -1,0 +1,282 @@
+{
+  "name": "openmunicipality-conprel",
+  "title": "Spanish municipal budgets (CONPREL), normalised for OpenMunicipality",
+  "description": "Consolidated budgets 2010-2025 and outturns 2010-2024 of Spanish municipalities from the Ministry of Finance CONPREL database, grouped into plain-language areas. Outturns use recognised obligations (spending) and recognised rights (income). Built with scripts/build_conprel.py. Before 2014, programme detail is missing for municipalities that were allowed to report only by area and policy.",
+  "licenses": [
+    {
+      "name": "ES-public-sector-reuse",
+      "title": "Public-sector information reusable with attribution under Ley 37/2007 (Spain): cite Ministerio de Hacienda (CONPREL) and INE. The municipal code list comes from Code for Spain under ODC-PDDL.",
+      "path": "https://www.boe.es/eli/es/l/2007/11/16/37/con"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Ministerio de Hacienda, CONPREL",
+      "path": "https://serviciostelematicosext.hacienda.gob.es/SGFAL/CONPREL"
+    },
+    {
+      "title": "INE municipal codes via Code for Spain (ODC-PDDL)",
+      "path": "https://github.com/codeforspain/ds-organizacion-administrativa"
+    },
+    {
+      "title": "INE consumer price index (see cpi_SOURCE.md)",
+      "path": "https://www.ine.es"
+    },
+    {
+      "title": "Ministerio de Política Territorial, relación de alcaldes por mandato",
+      "path": "https://mpt.gob.es/politica-territorial/local/sistema_de_informacion_local_-SIL-/alcaldes_y_concejales.html"
+    }
+  ],
+  "resources": [
+    {
+      "name": "municipalities",
+      "path": "municipalities.csv.gz",
+      "description": "Municipalities with data, one row per year and stage",
+      "schema": {
+        "fields": [
+          {
+            "name": "ine_code",
+            "type": "string",
+            "description": "Official municipality code (INE code in Spain)"
+          },
+          {
+            "name": "Year",
+            "type": "integer",
+            "description": "Fiscal year"
+          },
+          {
+            "name": "Stage",
+            "type": "string",
+            "description": "'budget' (planned) or 'executed' (outturn)"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "Readable municipality name"
+          },
+          {
+            "name": "province",
+            "type": "string",
+            "description": "Province or region"
+          },
+          {
+            "name": "population",
+            "type": "integer",
+            "description": "Registered population used for per-resident figures"
+          }
+        ]
+      }
+    },
+    {
+      "name": "lines",
+      "path": [
+        "lines_budget.csv.gz",
+        "lines_executed.csv.gz"
+      ],
+      "description": "Amounts by municipality, year, stage, type and category (one file per stage)",
+      "schema": {
+        "fields": [
+          {
+            "name": "ine_code",
+            "type": "string"
+          },
+          {
+            "name": "Year",
+            "type": "integer"
+          },
+          {
+            "name": "Stage",
+            "type": "string"
+          },
+          {
+            "name": "Type",
+            "type": "string",
+            "description": "'Expense' (by area), 'Income' (by chapter) or 'ExpenseChapter' (by economic chapter, E1-E9 and E67 = E6+E7)"
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "description": "Category code, named in modules/i18n.py or in an optional categories.csv"
+          },
+          {
+            "name": "Amount",
+            "type": "number",
+            "description": "Euros (nominal)"
+          }
+        ]
+      }
+    },
+    {
+      "name": "benchmarks",
+      "path": "benchmarks.csv.gz",
+      "description": "Median euros per resident by population band (zeros included)",
+      "schema": {
+        "fields": [
+          {
+            "name": "Year",
+            "type": "integer"
+          },
+          {
+            "name": "Stage",
+            "type": "string"
+          },
+          {
+            "name": "band",
+            "type": "string",
+            "description": "Population band, e.g. 100000-500000"
+          },
+          {
+            "name": "Type",
+            "type": "string"
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "description": "Category code or '_TOTAL'"
+          },
+          {
+            "name": "Median_Per_Capita",
+            "type": "number",
+            "description": "Median euros per resident"
+          },
+          {
+            "name": "Municipalities",
+            "type": "integer",
+            "description": "Municipalities in the band"
+          }
+        ]
+      }
+    },
+    {
+      "name": "programs",
+      "path": [
+        "programs_budget.csv.gz",
+        "programs_executed.csv.gz"
+      ],
+      "description": "Optional: spending programmes inside each area (one file per stage)",
+      "schema": {
+        "fields": [
+          {
+            "name": "ine_code",
+            "type": "string"
+          },
+          {
+            "name": "Year",
+            "type": "integer"
+          },
+          {
+            "name": "Stage",
+            "type": "string"
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "description": "Area code"
+          },
+          {
+            "name": "Program",
+            "type": "string",
+            "description": "Programme code"
+          },
+          {
+            "name": "Amount",
+            "type": "number",
+            "description": "Euros"
+          }
+        ]
+      }
+    },
+    {
+      "name": "program_names",
+      "path": "program_names.csv.gz",
+      "description": "Optional: official programme names. Since = first year the name applies; codes changed meaning in the 2014 revision of the national programme list (applied from 2015)",
+      "schema": {
+        "fields": [
+          {
+            "name": "Program",
+            "type": "string"
+          },
+          {
+            "name": "Since",
+            "type": "integer",
+            "description": "Optional; first year the name applies"
+          },
+          {
+            "name": "Name",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "all_municipalities",
+      "path": "all_municipalities.csv.gz",
+      "description": "Optional: every municipality, to explain missing data",
+      "schema": {
+        "fields": [
+          {
+            "name": "ine_code",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "cpi",
+      "path": "cpi.csv",
+      "description": "Optional: annual average consumer price change (%)",
+      "schema": {
+        "fields": [
+          {
+            "name": "Year",
+            "type": "integer"
+          },
+          {
+            "name": "CPI_annual_average_change_pct",
+            "type": "number"
+          }
+        ]
+      }
+    },
+    {
+      "name": "mayors",
+      "path": "mayors.csv.gz",
+      "description": "Optional: mayors per council and term of office, with the list they were registered under and their dates in office (from 1 January 2010 to 17 October 2026; for the 2023-2027 term only the mayor in office on that date). See mayors_SOURCE.md.",
+      "schema": {
+        "fields": [
+          {
+            "name": "ine_code",
+            "type": "string",
+            "description": "5-digit INE municipality code"
+          },
+          {
+            "name": "term",
+            "type": "integer",
+            "description": "First year of the term of office"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "list",
+            "type": "string",
+            "description": "List as registered by the Ministry (C. ELECTORAL = electoral coalition)"
+          },
+          {
+            "name": "start",
+            "type": "date"
+          },
+          {
+            "name": "end",
+            "type": "date"
+          }
+        ]
+      }
+    }
+  ]
+}

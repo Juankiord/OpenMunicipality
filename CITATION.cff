@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "OpenMunicipality"
+abstract: >-
+  Open-source web application that explains Spanish municipal budgets in plain
+  language, using the Ministry of Finance CONPREL database: per-resident
+  figures, comparisons with municipalities of a similar size, year-on-year
+  changes, spending types and programmes, in Spanish and English.
+type: software
+authors:
+  - family-names: "Roa Domínguez"
+    given-names: "Juan Antonio"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"  # TODO: add ORCID
+    # affiliation: ""                                 # TODO: add affiliation
+version: "1.0.0"
+date-released: "2026-10-15"
+license: MIT
+repository-code: "https://github.com/USERNAME/OpenMunicipality"  # TODO
+keywords:
+  - budget transparency
+  - municipal budgets
+  - plain language
+  - public communication
+  - open data
+  - Streamlit

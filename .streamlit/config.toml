@@ -1,0 +1,52 @@
+[theme]
+font = "Atkinson Hyperlegible Next, system-ui, sans-serif"
+baseFontSize = 16
+headingFontWeights = 700
+baseRadius = "6px"
+showSidebarBorder = true
+
+[[theme.fontFaces]]
+family = "Atkinson Hyperlegible Next"
+url = "app/static/fonts/atkinson-hyperlegible-next-latin-400-normal.woff2"
+weight = 400
+
+[[theme.fontFaces]]
+family = "Atkinson Hyperlegible Next"
+url = "app/static/fonts/atkinson-hyperlegible-next-latin-600-normal.woff2"
+weight = 600
+
+[[theme.fontFaces]]
+family = "Atkinson Hyperlegible Next"
+url = "app/static/fonts/atkinson-hyperlegible-next-latin-700-normal.woff2"
+weight = 700
+
+[theme.light]
+primaryColor = "#1c5cab"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f3f4f1"
+textColor = "#1d2433"
+borderColor = "#dcded8"
+linkColor = "#1c5cab"
+
+[theme.light.sidebar]
+backgroundColor = "#f3f4f1"
+
+[theme.dark]
+primaryColor = "#6da7ec"
+backgroundColor = "#161a21"
+secondaryBackgroundColor = "#1e232c"
+textColor = "#e9ebef"
+borderColor = "#343a46"
+linkColor = "#86b6ef"
+
+[theme.dark.sidebar]
+backgroundColor = "#1e232c"
+
+[server]
+enableStaticServing = true
+
+[client]
+toolbarMode = "viewer"
+
+[browser]
+gatherUsageStats = false

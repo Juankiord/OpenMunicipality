@@ -1,0 +1,59 @@
+name: Update official data
+
+# Run by hand from the Actions tab once a year (budgets are published in
+# December, outturns during the following year). Paste the download links of
+# the CONPREL "Datos por Entidad Local. Máximo nivel de desglose (ACCESS)"
+# files; the file name must contain Presupuestos<year> or Liquidaciones<year>.
+on:
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "CONPREL zip links, separated by spaces"
+        required: true
+      refresh_municipality_list:
+        description: "Also refresh the INE municipality list"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install tools
+        run: |
+          sudo apt-get update && sudo apt-get install -y mdbtools
+          pip install -r requirements.txt -r requirements-dev.txt
+      - name: Download CONPREL files
+        env:
+          URLS: ${{ inputs.urls }}
+        run: |
+          mkdir -p raw
+          for url in $URLS; do
+            name=$(basename "${url%%\?*}")
+            curl -fsSL "$url" -o "raw/$name"
+          done
+          ls -la raw
+      - name: Build dataset
+        run: python scripts/build_conprel.py raw/*
+      - name: Refresh municipality list
+        if: ${{ inputs.refresh_municipality_list }}
+        run: python scripts/build_municipality_list.py
+      - name: Test with the new data
+        run: python -m pytest -q
+      - name: Open a pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: data-update
+          title: "Update official budget data"
+          commit-message: "Update official budget data"
+          body: "Built from: ${{ inputs.urls }}"
+          add-paths: data/conprel
