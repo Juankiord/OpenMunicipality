@@ -6,6 +6,8 @@ how much it actually spent, how much that is per resident, where the money
 goes and comes from, how it compares with municipalities of a similar size and
 what has changed since the previous year. Interface in Spanish and English.
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23451732.svg)](https://doi.org/10.5281/zenodo.23451732)
+
 Version 1.0.0 · MIT licence · Python ≥ 3.10
 
 ## What it does
@@ -153,7 +155,11 @@ static/fonts/                Atkinson Hyperlegible Next (SIL Open Font License)
 
 ## Citation
 
-See `CITATION.cff`.
+Roa Domínguez, J. A. (2026). *OpenMunicipality* (version 1.0.0) [Computer
+software]. Zenodo. <https://doi.org/10.5281/zenodo.23451732>
+
+Citation metadata: `CITATION.cff`. Source code:
+<https://github.com/juankiord/OpenMunicipality>.
 
 Licence: MIT. The bundled font is under the SIL Open Font License 1.1
 (`static/fonts/OFL.txt`).
